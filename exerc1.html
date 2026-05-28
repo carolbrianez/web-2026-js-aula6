@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de compras</title>
+    <script>
+        window.onload = inicio;
+        let listaItens = [];
+
+        function inicio() {
+            document.getElementById('btnAdiciona').addEventListener('click', adicionar);
+        }
+
+        function adicionar() {
+            let campoItem = document.getElementById('item');
+            let texto = campoItem.value.trim();
+            if (!texto) return;
+
+            listaItens.push([false, texto]);
+            campoItem.value = "";
+            atualizar();
+        }
+
+        function atualizar() {
+            let lista = document.getElementById('listaAComprar');
+            lista.innerHTML = "";
+
+            for (let i = 0; i < listaItens.length; i++) {
+                lista.innerHTML += "<li>" + listaItens[i][1] + "</li>";
+            }
+
+
+            document.getElementById('quantidade').textContent =
+                "Total de itens: " + listaItens.length;
+        }
+    </script>
+</head>
+<body>
+    <label for="item">Item:</label>
+    <input type="text" id="item"><br>
+    <button id="btnAdiciona">Adicionar</button>
+
+
+    <p id="quantidade">Total de itens: 0</p>
+
+    <ul id="listaAComprar"></ul>
+</body>
+</html>

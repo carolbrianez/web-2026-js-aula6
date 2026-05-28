@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de compras</title>
+    <script>
+        window.onload = inicio;
+        let listaItens = [];
+
+        function inicio() {
+            let botaoAdiciona = document.getElementById('btnAdiciona');
+            botaoAdiciona.addEventListener('click', adicionar);
+
+            let botaoRemove = document.getElementById('btnRemove');
+            botaoRemove.addEventListener('click', remover);
+        }
+
+        function adicionar() {
+            let campoItem = document.getElementById('item');
+            let texto = campoItem.value;
+
+            if (texto.trim() === "") return;
+
+            // [comprado?, item]
+            listaItens.push([false, texto]);
+            campoItem.value = "";
+            atualizar();
+        }
+
+        function remover() {
+            let campoNumero = document.getElementById('numero');
+            let numero = parseInt(campoNumero.value);
+
+
+            if (isNaN(numero) || numero < 1 || numero > listaItens.length) {
+                alert("Número inválido. Digite um número entre 1 e " + listaItens.length);
+                return;
+            }
+
+            let indice = numero - 1; 
+            listaItens[indice][0] = true;
+
+
+            let itemRemovido = listaItens.splice(indice, 1)[0];
+
+  
+            let listaComprados = document.getElementById('listaComprados');
+            listaComprados.innerHTML += "<li>" + itemRemovido[1] + "</li>";
+
+            campoNumero.value = "";
+            atualizar();
+        }
+
+        function atualizar() {
+            let lista = document.getElementById('listaAComprar');
+            lista.innerHTML = "";
+            for (let i = 0; i < listaItens.length; i++) {
+                lista.innerHTML += "<li>" + listaItens[i][1] + "</li>";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <label for="item">Item:</label>
+    <input type="text" id="item"><br>
+    <button id="btnAdiciona">Adicionar</button>
+    <h2>Comprar:</h2>
+    <ol id="listaAComprar"></ol>
+    <label for="numero">Remover:</label>
+    <input type="number" id="numero"><br>
+    <button id="btnRemove">Remover</button>
+    <h2>Comprado:</h2>
+    <ul id="listaComprados"></ul>
+</body>
+
+</html>
